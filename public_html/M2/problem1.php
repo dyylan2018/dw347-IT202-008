@@ -22,6 +22,7 @@ function printOdds($arr, $arrayNumber)
     echo "Output Array: ";
 
     // Start Solution Edits
+    //dw347 2-15-25
     for($i = 0; $i < count($arr)-1; $i++){
         if($arr[$i] % 2)
         echo $arr[$i] . ", ";

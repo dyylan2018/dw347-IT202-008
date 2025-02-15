@@ -31,6 +31,7 @@ function transformText($arr, $arrayNumber) {
     $placeholderForMiddleCharacters = "";
     foreach ($arr as $index => $text) {
         // Start Solution Edits
+        //dw347 2-15-25
         // Step 1: Remove non-alphanumeric characters except spaces
         $cleanText = preg_replace('/[^a-zA-Z0-9 ]/', '', $text);
 
@@ -53,7 +54,7 @@ function transformText($arr, $arrayNumber) {
         $placeholderForModifiedPhrase = $finalText;
         $placeholderForMiddleCharacters = $middleCharacters;
 
-        printStringTransformations($index, $placeholderForModifiedPhrase, $placeholderForMiddleCharacters);
+
         
 
         // End Solution Edits
