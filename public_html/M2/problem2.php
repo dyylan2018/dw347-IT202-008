@@ -26,6 +26,7 @@ function sumValues($arr, $arrayNumber)
 
     $total = 0;
     // Start Solution Edits
+    // dw347 2-15-25
     // Solve Challenge 1 here
     $total = array_sum($arr);
 
