@@ -20,11 +20,12 @@ function printOdds($arr, $arrayNumber)
     // Step 3: Add code to solve the problem (add/commit as needed)
 
     echo "Output Array: ";
+
     // Start Solution Edits
-    // for($i = 0; $i < count($arr)-1; $i++){
-    //     if($arr[$i] % 2)
-    //         echo $arr[$i];
-    // }
+    for($i = 0; $i < count($arr)-1; $i++){
+        if($arr[$i] % 2)
+        echo $arr[$i] . ", ";
+    }
 
     // End Solution Edits
     echo "<br>______________________________________<br>";
