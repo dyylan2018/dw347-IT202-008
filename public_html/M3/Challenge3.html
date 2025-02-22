@@ -1,0 +1,207 @@
+<!--
+Challenge 3: Carousel Layout with Swiping
+-----------------------------------------
+Requirements:
+    Using CSS adjust the layout per the following rules
+    1. Header should be at the top
+    2. Carousel should take up full width
+    3. Buttons should be centered
+    Using JavaScript solve the following
+    1. Attach appropriate event listeners to each button
+    2. Cycle through each panel showing only 1 at a time
+    3. Ensure that the panels loop when reaching the last or first one
+    4. Extra credit: Allow mouse swipe on the carousel to cycle through the panels similar to how the buttons would work 
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carousel UI</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Layout adjustments */
+
+        /* Reset default margins and set a base font */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+        }
+
+        /* Header at the top with full width and centered text */
+        header {
+            width: 100%;
+            text-align: center;
+            padding: 1rem;
+            background-color: #180d0d; /* Dark background for contrast */
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        /* Centered navigation buttons with spacing */
+        nav {
+            margin: 1rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 1rem; /* Space between buttons */
+        }
+
+        /* Button styling for better usability */
+        button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        /* Carousel wrapper hides overflow and allows sliding */
+        .carousel {
+            width: 100%; /* Full width carousel */
+            overflow: hidden; /* Hide overflowing panels */
+            position: relative;
+        }
+
+        /* Flex container holds all panels side-by-side */
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease; /* Smooth sliding animation */
+        }
+
+        /* Each panel takes full width to display one at a time */
+        .panel {
+            min-width: 100%; /* Ensures only one panel shows at a time */
+            flex-shrink: 0; /* Prevent shrinking */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            background-color: #ddd;
+            font-size: 1.5rem;
+            border: 1px solid #ccc; /* Subtle border for distinction */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header displaying section title and updated with current date/time via JavaScript -->
+    <header>Header Section (dw347)</header>
+
+    <!-- Navigation buttons for previous and next panel control -->
+    <nav>
+        <button id="prevBtn">Previous</button>
+        <button id="nextBtn">Next</button>
+    </nav>
+
+    <!-- Carousel containing all panels inside a container -->
+    <div class="carousel">
+        <div class="carousel-container">
+            <div class="panel">Panel 1: HTML Forms</div>
+            <div class="panel">Panel 2: CSS Grid</div>
+            <div class="panel">Panel 3: JavaScript Events</div>
+            <div class="panel">Panel 4: Responsive Design</div>
+            <div class="panel">Panel 5: Accessibility Best Practices</div>
+        </div>
+    </div>
+
+    <script>
+        // Update header to include current date and time
+        // Demonstrates basic DOM manipulation
+        let header = document.querySelector("header");
+        header.innerText += " " + new Date().toLocaleString("en-US");
+
+        // -----------------------------
+        // Carousel Functionality
+        // -----------------------------
+
+        const carouselContainer = document.querySelector('.carousel-container'); // Container holding panels
+        const panels = document.querySelectorAll('.panel'); // All carousel panels
+        const prevBtn = document.getElementById('prevBtn'); // Previous button
+        const nextBtn = document.getElementById('nextBtn'); // Next button
+
+        let currentIndex = 0; // Tracks the current panel index
+        const totalPanels = panels.length; // Total number of panels
+
+        /**
+         * Updates the carousel position by translating the container
+         * Ensures the correct panel is displayed based on currentIndex
+         */
+        function updateCarousel() {
+            carouselContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        /**
+         * Event listener for 'Previous' button click
+         * Moves to the previous panel and loops to the last panel if at the first
+         */
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + totalPanels) % totalPanels; // Loop backwards
+            updateCarousel();
+        });
+
+        /**
+         * Event listener for 'Next' button click
+         * Advances to the next panel and loops back to the first panel if at the last
+         */
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % totalPanels; // Loop forwards
+            updateCarousel();
+        });
+
+        // -----------------------------
+        // Extra Credit: Swipe Functionality
+        // -----------------------------
+
+        let startX = 0; // Starting X coordinate for swipe
+        let endX = 0;   // Ending X coordinate for swipe
+
+        /**
+         * Records the starting X position when touch begins
+         */
+        carouselContainer.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+
+        /**
+         * Records the ending X position when touch ends
+         * Calls handleSwipe to determine direction and navigate accordingly
+         */
+        carouselContainer.addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            handleSwipe();
+        });
+
+        /**
+         * Handles swipe detection and carousel navigation
+         * - Swipe left advances to the next panel
+         * - Swipe right moves to the previous panel
+         */
+        function handleSwipe() {
+            if (startX - endX > 50) {
+                // Swipe left - go to next panel
+                currentIndex = (currentIndex + 1) % totalPanels;
+            } else if (endX - startX > 50) {
+                // Swipe right - go to previous panel
+                currentIndex = (currentIndex - 1 + totalPanels) % totalPanels;
+            }
+            updateCarousel();
+        }
+
+        // Initialize carousel to ensure correct starting position
+        updateCarousel();
+    </script>
+</body>
+
+</html>

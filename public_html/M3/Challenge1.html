@@ -1,0 +1,132 @@
+<!--
+Challenge 1: Full-Page Layout with Scrollable Content
+-----------------------------------------------------
+Requirements:
+ The header and footer should remain FIXED in place (top and bottom of page respectively)
+ The content area should SCROLL independently (nothing should be pushed off screen)
+ The entire page should always take up the full viewport height
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Page Layout</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /*
+         * CSS Layout Adjustments:
+         * - Ensure the header and footer remain fixed.
+         * - Make the main content area scrollable.
+         * - Maintain full viewport height at all times.
+         */
+
+        /* Reset default margins and ensure consistent font */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Fixed header at the top */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            font-size: 1.2rem;
+            z-index: 1000; /* Ensure header is above all content */
+        }
+
+        /* Fixed footer at the bottom */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 0.8rem;
+            font-size: 1rem;
+            z-index: 1000; /* Ensure footer is above all content */
+        }
+
+        /* Main content area with space between header and footer */
+        main {
+            flex: 1;
+            padding: 5rem 1rem 4rem; /* Top and bottom padding account for fixed header/footer */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+
+        /* Content styling for readability */
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        h2 {
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header stays fixed at the top of the viewport -->
+    <header>Header Section (dw347)</header>
+
+    <!-- Main content area scrolls independently without affecting header or footer -->
+    <main>
+        <div class="content">
+            <h2>Lorem Ipsum</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id posuere felis. Pellentesque tincidunt,
+                mauris sed pretium vehicula, enim odio lacinia urna, vel blandit sapien turpis at enim. Suspendisse a
+                tortor vel nunc lobortis dapibus in id dolor. Morbi elementum ligula nec dictum fringilla. Sed sed
+                sagittis diam, et consequat lacus. Suspendisse non dui mauris. Vivamus molestie mattis libero, nec
+                placerat dolor imperdiet vitae. Etiam dapibus orci lacus, eu tristique ipsum sagittis in. Fusce
+                porttitor mi non consectetur dictum.</p>
+        </div>
+    </main>
+
+    <!-- Footer stays fixed at the bottom of the viewport -->
+    <footer>Footer Section</footer>
+
+    <script>
+        /*
+         * This section is just to generate a lot of text dynamically.
+         * Ignore this whole script tag, it's not relevant for the challenge.
+         * Do not make any edits/changes here.
+         */
+        let content = document.querySelector(".content");
+        let p = content.querySelector("p");
+        for (let i = 0; i < 20; i++) {
+            let another = p.cloneNode(true); // Clone the paragraph to add more content
+            content.appendChild(another);    // Append cloned paragraphs to simulate long content
+        }
+
+        // Append current date and time to the header
+        let header = document.querySelector("header");
+        header.innerText += " " + new Date().toLocaleString("en-US");
+    </script>
+</body>
+
+</html>
