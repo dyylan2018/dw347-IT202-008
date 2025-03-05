@@ -1,5 +1,5 @@
 <?php
-require(__DIR__ . "/../../partials/nav.php");
+require(__DIR__ . "/../../lib/functions.php");
 ?>
 <form onsubmit="return validate(this)" method="POST">
     <div>
@@ -9,6 +9,10 @@ require(__DIR__ . "/../../partials/nav.php");
     <div>
         <label for="pw">Password</label>
         <input type="password" id="pw" name="password" required minlength="8" />
+    </div>
+    <div>
+        <label for="confirm">Confirm</label>
+        <input type="password" name="confirm" required minlength="8" />
     </div>
     <input type="submit" value="Register" />
 </form>
