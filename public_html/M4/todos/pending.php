@@ -10,10 +10,11 @@ if (isset($_POST["id"])) {
     Create a query that'll update the respective ToDo marking it complete and setting the date for the completed date field as today.
     Ensure the "id" is utilized using proper PDO named placeholders so that only the one item is updated.
     Add an extra clause to update only if the complete field of the record is not set.
+    dw347 3/7/25
     https://phpdelusions.net/pdo
     */
-    $query = ""; // edit this
-    $params = []; // apply mapping
+    $query = "UPDATE M4_Todos SET is_complete = 1, completed = CURRENT_TIMESTAMP WHERE id = :id AND is_complete = 0";
+    $params = [":id" => $id];
     
     try {
         $stmt = $db->prepare($query);
@@ -35,7 +36,7 @@ For Actions, this isn't part of the query and there's nothing special to select 
 Filter the results where the todo item is NOT completed and order the results by those due the soonest.
 No limit is required.
 */
-$query = ""; // edit this
+$query = "SELECT id, task, due, DATEDIFF(due, CURRENT_DATE) AS days_offset, assigned FROM M4_Todos WHERE is_complete = 0 ORDER BY due ASC";
 $results = [];
 try {
     $stmt = $db->prepare($query);

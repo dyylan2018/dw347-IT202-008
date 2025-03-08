@@ -1,4 +1,4 @@
-<?php
+<?php 
 require_once(__DIR__ . "/../../../lib/db.php"); ?>
 
 <?php
@@ -10,8 +10,9 @@ For the completed date you'll need to extract the date portion from the complete
 For the Status part, you'll need to calculate the "days_offset" from the completed date, ensure the virtual column matches "days_offset".
 Filter the results where the todo item is completed and order the results by most recently completed and most recently due.
 No limit is required.
+dw347 3/7/25
 */
-$query = ""; // edit this
+$query = "SELECT id, task, due, DATE(completed) AS completed_date, DATEDIFF(completed, due) AS days_offset, assigned FROM M4_Todos WHERE is_complete = 1 ORDER BY completed DESC, due DESC";
 $results = [];
 try {
     $stmt = $db->prepare($query);
@@ -20,7 +21,7 @@ try {
         $results = $stmt->fetchAll();
     }
 } catch (PDOException $e) {
-    echo "Error fetching pending todos; check the logs (terminal)";
+    echo "Error fetching completed todos; check the logs (terminal)";
     error_log("Select Error: " . var_export($e, true)); // shows in the terminal
 }
 ?>
@@ -47,9 +48,9 @@ try {
                         <?php foreach ($r as $key => $val): ?>
                             <?php if ($key == "days_offset"): ?>
                                 <?php if ($val >= 0): ?>
-                                    <td><?php echo "Completed $val day(s)"; ?></td>
+                                    <td><?php echo "Completed $val day(s) late"; ?></td>
                                 <?php else: ?>
-                                    <td><?php echo "Overdue by " . abs($val) . " day(s)"; ?></td>
+                                    <td><?php echo "Completed on time"; ?></td>
                                 <?php endif; ?>
 
                             <?php else: ?>
