@@ -66,6 +66,7 @@ function joinArrays($users, $activities) {
         }
     }
     // End edits
+    //dw347 4/3/25
     
     echo "<pre>" . var_export($joined, true) . "</pre>";
 }

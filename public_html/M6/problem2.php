@@ -43,6 +43,7 @@ function processCars($cars) {
         $processedCars[] = array_merge($car, ["age" => $age, "isClassic" => $isClassic]);
     }
     // End edits
+    //dw347 4/3/25
     
     echo "<pre>" . var_export($processedCars, true) . "</pre>";
 }
