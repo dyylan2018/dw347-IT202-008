@@ -3,9 +3,9 @@
 function fetch_quote($symbol)
 {
     $data = ["function" => "GLOBAL_QUOTE", "symbol" => $symbol, "datatype" => "json"];
-    $endpoint = "https://alpha-vantage.p.rapidapi.com/query";
+    $endpoint = "https://therundown-therundown-v1.p.rapidapi.com/v2/teams/48/players";
     $isRapidAPI = true;
-    $rapidAPIHost = "alpha-vantage.p.rapidapi.com";
+    $rapidAPIHost = "therundown-therundown-v1.p.rapidapi.com";
     $result = get($endpoint, "STOCK_API_KEY", $data, $isRapidAPI, $rapidAPIHost);
     if (se($result, "status", 400, false) == 200 && isset($result["response"])) {
         $result = json_decode($result["response"], true);
