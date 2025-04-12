@@ -1,33 +1,43 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
+require_once(__DIR__ . "/../../lib/api_helper.php");
 
 $result = [];
 if (isset($_GET["player"])) {
-    //function=GLOBAL_QUOTE&symbol=MSFT&datatype=json
     $data = ["function" => "GLOBAL_QUOTE", "player" => $_GET["player"], "datatype" => "json"];
     $endpoint = "https://therundown-therundown-v1.p.rapidapi.com/v2/teams/48/players";
     $isRapidAPI = true;
     $rapidAPIHost = "therundown-therundown-v1.p.rapidapi.com";
-    $result = get($endpoint, "STOCK_API_KEY", $data, $isRapidAPI, $rapidAPIHost);
-    //example of cached data to save the quotas, don't forget to comment out the get() if using the cached data for testing
-    /* $result = ["status" => 200, "response" => '{
-    "Global Quote": {
-        "01. symbol": "MSFT",
-        "02. open": "420.1100",
-        "03. high": "422.3800",
-        "04. low": "417.8400",
-        "05. price": "421.4400",
-        "06. volume": "17861855",
-        "07. latest trading day": "2024-04-02",
-        "08. previous close": "424.5700",
-        "09. change": "-3.1300",
-        "10. change percent": "-0.7372%"
-    }
-}'];*/
-    error_log("Response: " . var_export($result, true));
-    if (se($result, "status", 400, false) == 200 && isset($result["response"])) {
-        $result = json_decode($result["response"], true);
-    } else {
+
+    try {
+        $result = get($endpoint, "STOCK_API_KEY", $data, $isRapidAPI, $rapidAPIHost);
+        // Uncomment below to test with sample data instead of live API call
+        /*
+        $result = ["status" => 200, "response" => '{
+            "Global Quote": {
+                "01. symbol": "MSFT",
+                "02. open": "420.1100",
+                "03. high": "422.3800",
+                "04. low": "417.8400",
+                "05. price": "421.4400",
+                "06. volume": "17861855",
+                "07. latest trading day": "2024-04-02",
+                "08. previous close": "424.5700",
+                "09. change": "-3.1300",
+                "10. change percent": "-0.7372%"
+            }
+        }'];
+        */
+        error_log("Response: " . var_export($result, true));
+
+        if (se($result, "status", 400, false) == 200 && isset($result["response"])) {
+            $result = json_decode($result["response"], true);
+        } else {
+            $result = [];
+        }
+    } catch (Exception $e) {
+        error_log("API Error: " . $e->getMessage());
+        flash("API request failed: " . $e->getMessage(), "danger");
         $result = [];
     }
 }
@@ -42,15 +52,12 @@ if (isset($_GET["player"])) {
             <input type="submit" value="Fetch Player" />
         </div>
     </form>
-    <div class="row ">
-        <?php if (isset($result)) : ?>
-            <?php foreach ($result as $stock) : ?>
-                <pre>
-                    <?php var_export($stock);?>
-                </pre>
-            <?php endforeach; ?>
+    <div class="row">
+        <?php if (!empty($result)) : ?>
+            <pre><?php var_export($result); ?></pre>
         <?php endif; ?>
     </div>
 </div>
 <?php
 require(__DIR__ . "/../../partials/flash.php");
+?>
