@@ -2,12 +2,12 @@
 require(__DIR__ . "/../../partials/nav.php");
 
 $result = [];
-if (isset($_GET["symbol"])) {
+if (isset($_GET["player"])) {
     //function=GLOBAL_QUOTE&symbol=MSFT&datatype=json
-    $data = ["function" => "GLOBAL_QUOTE", "symbol" => $_GET["symbol"], "datatype" => "json"];
-    $endpoint = "https://alpha-vantage.p.rapidapi.com/query";
+    $data = ["function" => "GLOBAL_QUOTE", "player" => $_GET["player"], "datatype" => "json"];
+    $endpoint = "https://therundown-therundown-v1.p.rapidapi.com/v2/teams/48/players";
     $isRapidAPI = true;
-    $rapidAPIHost = "alpha-vantage.p.rapidapi.com";
+    $rapidAPIHost = "therundown-therundown-v1.p.rapidapi.com";
     $result = get($endpoint, "STOCK_API_KEY", $data, $isRapidAPI, $rapidAPIHost);
     //example of cached data to save the quotas, don't forget to comment out the get() if using the cached data for testing
     /* $result = ["status" => 200, "response" => '{
@@ -33,13 +33,13 @@ if (isset($_GET["symbol"])) {
 }
 ?>
 <div class="container-fluid">
-    <h1>Stock Info</h1>
+    <h1>Player Stats</h1>
     <p>Remember, we typically won't be frequently calling live data from our API, this is merely a quick sample. We'll want to cache data in our DB to save on API quota.</p>
     <form>
         <div>
-            <label>Symbol</label>
-            <input name="symbol" />
-            <input type="submit" value="Fetch Stock" />
+            <label>Player</label>
+            <input name="player" />
+            <input type="submit" value="Fetch Player" />
         </div>
     </form>
     <div class="row ">
