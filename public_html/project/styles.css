@@ -1,5 +1,5 @@
 .alert-success {
-    background-color: #28a745; /* Softer green */
+    background-color: #a72828; /* Softer green */
     color: #fff;
     padding: 10px;
     border-radius: 5px;
@@ -38,7 +38,7 @@ nav li {
 }
 
 nav li a {
-    color: #f8f9fa; /* Light text for contrast */
+    color: #333b42; /* Light text for contrast */
     text-decoration: none;
     font-weight: bold;
     padding: 8px 12px;
