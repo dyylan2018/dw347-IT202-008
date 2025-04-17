@@ -2,25 +2,90 @@
 require(__DIR__ . "/../../partials/nav.php");
 reset_session();
 ?>
-<form onsubmit="return validate(this)" method="POST">
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+  }
+
+  .page-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 60px); /* Adjust depending on nav height */
+    background-color: #f5f5f5;
+  }
+
+  .register-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    min-width: 300px;
+    width: 100%;
+  }
+
+  .register-form div {
+    margin-bottom: 1rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  input[type="submit"] {
+    width: 100%;
+    padding: 0.7rem;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<div class="page-wrapper">
+  <form class="register-form" onsubmit="return validate(this)" method="POST" novalidate>
     <div>
-        <label for="email">Email</label>
-        <input type="email" name="email" required />
+      <label for="email">Email/Username</label>
+      <input type="text" name="email" required value="<?php echo htmlspecialchars($_POST['email'] ?? '') ?>" />
     </div>
+
     <div>
-        <label for="username">Username</label>
-        <input type="text" name="username" required maxlength="30" />
+      <label for="username">Username</label>
+      <input type="text" name="username" required maxlength="30" />
     </div>
+
     <div>
-        <label for="pw">Password</label>
-        <input type="password" id="pw" name="password" required minlength="8" />
+      <label for="pw">Password</label>
+      <input type="password" id="pw" name="password" required minlength="8" />
     </div>
+
     <div>
-        <label for="confirm">Confirm</label>
-        <input type="password" name="confirm" required minlength="8" />
+      <label for="confirm">Confirm Password</label>
+      <input type="password" name="confirm" required minlength="8" />
     </div>
+
     <input type="submit" value="Register" />
-</form>
+  </form>
+</div>
 <script>
     function validate(form) {
         //TODO 1: implement JavaScript validation
