@@ -93,32 +93,121 @@ if (isset($_POST["save"])) {
 $email = get_user_email();
 $username = get_username();
 ?>
-<form method="POST" onsubmit="return validate(this);">
-    <div class="mb-3">
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" value="<?php se($email); ?>" />
-    </div>
-    <div class="mb-3">
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username" value="<?php se($username); ?>" />
-    </div>
-    <!-- DO NOT PRELOAD PASSWORD -->
-    <div>Password Reset</div>
-    <div class="mb-3">
-        <label for="cp">Current Password</label>
-        <input type="password" name="currentPassword" id="cp" />
-    </div>
-    <div class="mb-3">
-        <label for="np">New Password</label>
-        <input type="password" name="newPassword" id="np" />
-    </div>
-    <div class="mb-3">
-        <label for="conp">Confirm Password</label>
-        <input type="password" name="confirmPassword" id="conp" />
-    </div>
-    <input type="submit" value="Update Profile" name="save" />
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Form</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
 
+        .page-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .register-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-width: 250px;
+            width: 100%;
+        }
+
+        .register-form div {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center align the label and input */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            text-align: center; /* Center the labels */
+        }
+
+        input[type="email"],
+        input[type="text"],
+        input[type="password"] {
+            width: 50%; /* Even smaller input fields */
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        input[type="submit"] {
+            width: 50%; /* Even smaller submit button */
+            padding: 0.7rem;
+            font-size: 1rem;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 1rem auto 0;
+            display: block;
+            text-align: center;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .mb-3 {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <form class="register-form" method="POST" onsubmit="return validate(this);">
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" value="<?php se($email); ?>" />
+            </div>
+            <div class="mb-3">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" value="<?php se($username); ?>" />
+            </div>
+            <div>Password Reset</div>
+            <div class="mb-3">
+                <label for="cp">Current Password</label>
+                <input type="password" name="currentPassword" id="cp" />
+            </div>
+            <div class="mb-3">
+                <label for="np">New Password</label>
+                <input type="password" name="newPassword" id="np" />
+            </div>
+            <div class="mb-3">
+                <label for="conp">Confirm Password</label>
+                <input type="password" name="confirmPassword" id="conp" />
+            </div>
+            <input type="submit" value="Update Profile" name="save" />
+        </form>
+    </div>
+
+    <script>
+        function validate(form) {
+            // TODO: Add form validation logic
+            return true;
+        }
+    </script>
+</body>
+</html>
 <script>
     function validate(form) {
         let pw = form.newPassword.value;

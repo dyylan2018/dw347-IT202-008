@@ -68,48 +68,66 @@ if (isset($_POST["username"])) {
 
 
 ?>
-<h1>Assign Roles</h1>
-<form method="POST">
-    <input type="search" name="username" placeholder="Username search" />
-    <input type="submit" value="Search" />
-</form>
-<form method="POST">
-    <?php if (isset($username) && !empty($username)) : ?>
-        <input type="hidden" name="username" value="<?php se($username, false); ?>" />
-    <?php endif; ?>
-    <table>
-        <thead>
-            <th>Users</th>
-            <th>Roles to Assign</th>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <table>
-                        <?php foreach ($users as $user) : ?>
-                            <tr>
-                                <td>
-                                    <label for="user_<?php se($user, 'id'); ?>"><?php se($user, "username"); ?></label>
-                                    <input id="user_<?php se($user, 'id'); ?>" type="checkbox" name="users[]" value="<?php se($user, 'id'); ?>" />
-                                </td>
-                                <td><?php se($user, "roles", "No Roles"); ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </td>
-                <td>
-                    <?php foreach ($active_roles as $role) : ?>
-                        <div>
-                            <label for="role_<?php se($role, 'id'); ?>"><?php se($role, "name"); ?></label>
-                            <input id="role_<?php se($role, 'id'); ?>" type="checkbox" name="roles[]" value="<?php se($role, 'id'); ?>" />
-                        </div>
-                    <?php endforeach; ?>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <input type="submit" value="Toggle Roles" />
-</form>
+<div class="container text-center mt-4">
+    <h1>Assign Roles</h1>
+
+    <!-- Username search form -->
+    <form method="POST" class="d-flex justify-content-center gap-2 mb-4">
+        <input type="search" name="username" placeholder="Username search" class="form-control w-auto" />
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </form>
+
+    <!-- Roles assignment form -->
+    <form method="POST" class="mx-auto" style="max-width: 1000px;">
+        <?php if (isset($username) && !empty($username)) : ?>
+            <input type="hidden" name="username" value="<?php se($username, false); ?>" />
+        <?php endif; ?>
+
+        <div class="table-responsive mb-3">
+            <table class="table table-bordered align-middle text-start">
+                <thead class="table-light">
+                    <tr>
+                        <th>Users</th>
+                        <th>Roles to Assign</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <table class="table mb-0">
+                                <?php foreach ($users as $user) : ?>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="users[]" value="<?php se($user, 'id'); ?>" id="user_<?php se($user, 'id'); ?>" />
+                                                <label class="form-check-label" for="user_<?php se($user, 'id'); ?>">
+                                                    <?php se($user, "username"); ?>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td><?php se($user, "roles", "No Roles"); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </table>
+                        </td>
+                        <td>
+                            <?php foreach ($active_roles as $role) : ?>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="roles[]" value="<?php se($role, 'id'); ?>" id="role_<?php se($role, 'id'); ?>" />
+                                    <label class="form-check-label" for="role_<?php se($role, 'id'); ?>">
+                                        <?php se($role, "name"); ?>
+                                    </label>
+                                </div>
+                            <?php endforeach; ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <input type="submit" value="Toggle Roles" class="btn btn-success" />
+    </form>
+</div>
 <?php
 //note we need to go up 1 more directory
 require_once(__DIR__ . "/../../../partials/flash.php");

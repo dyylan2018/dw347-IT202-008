@@ -32,24 +32,28 @@ if (isset($_GET["player"])) {
     }
 }
 ?>
-<div class="container-fluid">
-    <h1>Player Stats</h1>
-    <p>Remember, we typically won't be frequently calling live data from our API, this is merely a quick sample. We'll want to cache data in our DB to save on API quota.</p>
-    <form>
-        <div>
-            <label>Player</label>
-            <input name="player" />
-            <input type="submit" value="Fetch Player" />
+<div class="d-flex justify-content-center align-items-start pt-5" style="min-height: 80vh;">
+    <div class="container text-center">
+        <h1 class="mb-3">Player Stats</h1>
+        <p class="mb-4">
+            Search any NY Yankees player to see their stats
+        </p>
+        <form>
+            <div class="d-flex justify-content-center align-items-center gap-2 flex-wrap mb-3">
+                <label for="player" class="form-label m-0 align-self-center">Player</label>
+                <input name="player" id="player" class="form-control w-auto" />
+                <input type="submit" value="Fetch Player" class="btn btn-primary" />
+            </div>
+        </form>
+        <div class="row justify-content-center">
+            <?php if (isset($result)) : ?>
+                <?php foreach ($result as $stock) : ?>
+                    <div class="col-12 col-md-8">
+                        <pre><?php var_export($stock); ?></pre>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
-    </form>
-    <div class="row ">
-        <?php if (isset($result)) : ?>
-            <?php foreach ($result as $stock) : ?>
-                <pre>
-                    <?php var_export($stock);?>
-                </pre>
-            <?php endforeach; ?>
-        <?php endif; ?>
     </div>
 </div>
 <?php
