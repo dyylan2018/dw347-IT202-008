@@ -2,6 +2,7 @@
 require_once(__DIR__ . "/../../../lib/db.php");
 require_once(__DIR__ . "/../../../lib/functions.php");
 require_once(__DIR__ . "/../../../partials/nav.php");
+
 if (!has_role("Admin")) {
     flash("You don't have permission to view this page", "warning");
     die(header("Location: " . get_url("home.php")));
@@ -15,6 +16,7 @@ $players = $stmt->fetchAll();
 ?>
 
 <div class="container mt-5">
+    <?php require(__DIR__ . "/../../../partials/flash.php"); ?>
     <h2 class="text-center mb-4">Manage Players</h2>
     <table class="table table-bordered table-striped">
         <thead class="table-dark">

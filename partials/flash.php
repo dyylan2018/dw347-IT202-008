@@ -1,6 +1,21 @@
 <?php
 /*put this at the bottom of the page so any templates
  populate the flash variable and then display at the proper timing*/
+
+// Ensure session is started
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+// Define getMessages if not already defined
+if (!function_exists("getMessages")) {
+    function getMessages() {
+        $flashes = $_SESSION["flash"] ?? [];
+        // Clear flash messages once fetched
+        unset($_SESSION["flash"]);
+        return $flashes;
+    }
+}
 ?>
 <div class="container" id="flash">
     <?php $messages = getMessages(); ?>
