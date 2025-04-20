@@ -38,11 +38,32 @@ if ($id > 0) {
                 <li class="list-group-item"><strong>Created:</strong> <?php se($player, "created"); ?></li>
                 <li class="list-group-item"><strong>Modified:</strong> <?php se($player, "modified"); ?></li>
             </ul>
-            <a href="list_players.php" class="btn btn-secondary mt-4 w-100">← Back to List</a>
-        </div>
+
+            <!-- Action Buttons -->
+            <style>
+            .action-btn
+            {
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            </style>
+
+            <div class="d-flex gap-2 mt-4">
+                <a href="edit_player.php?id=<?= urlencode($player['id']) ?>" class="btn btn-warning w-50 action-btn">Edit</a>
+                <form method="POST" action="delete_player.php" class="w-50" onsubmit="return confirm('Are you sure you want to delete this player?');">
+                    <input type="hidden" name="id" value="<?= htmlspecialchars($player['id']) ?>">
+                    <button type="submit" class="btn btn-danger w-100 action-btn">Delete</button>
+                </form>
+            </div>
+                <a href="list_players.php" class="btn btn-secondary mt-3 w-100">← Back to List</a>
+            </div>
     <?php else : ?>
         <p class="text-danger text-center">Player not found.</p>
     <?php endif; ?>
 </div>
 
-<?php require(__DIR__ . "/../../../partials/flash.php"); ?>
+<?php
+require(__DIR__ . "/../../../partials/flash.php");
+?>
