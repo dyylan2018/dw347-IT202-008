@@ -1,5 +1,11 @@
 <?php
-require(__DIR__ . "/../../partials/nav.php");
+require(__DIR__ . "/../../../partials/nav.php");
+require_once(__DIR__ . "/../../../lib/db.php");
+
+if (!has_role("Admin")) {
+    flash("You don't have permission to view this page", "warning");
+    die(header("Location: " . get_url("home.php")));
+}
 
 $filtered = [];
 $hasSearched = false;
@@ -22,7 +28,7 @@ if (!empty($playerSearch)) {
 ?>
 <div class="d-flex justify-content-center align-items-start pt-5" style="min-height: 80vh;">
     <div class="container text-center">
-        <h1 class="mb-3">Player Stats</h1>
+        <h1 class="mb-3">Player Info</h1>
         <p class="mb-4">Search for NY Yankees players by name (Team ID defaults to 48).</p>
         <form method="GET">
             <div class="d-flex justify-content-center align-items-center gap-2 flex-wrap mb-3">
@@ -71,5 +77,5 @@ if (!empty($playerSearch)) {
     </div>
 </div>
 
-<?php require(__DIR__ . "/../../partials/flash.php");
+<?php require(__DIR__ . "/../../../partials/flash.php");
 ?>
