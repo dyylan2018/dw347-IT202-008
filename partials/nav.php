@@ -64,6 +64,7 @@ session_start();
               <li><a class="dropdown-item" href="<?php echo get_url('admin/list_players.php'); ?>">List Players</a></li>
               <li><a class="dropdown-item" href="<?php echo get_url('admin/search_player.php'); ?>">Fetch Player</a></li>
               <li><a class="dropdown-item" href="<?php echo get_url('admin/edit_player.php'); ?>">Edit Player</a></li>
+              <li><a class="dropdown-item" href="<?php echo get_url('admin/delete_player.php'); ?>">Delete Player</a></li>
             </ul>
           </li>
         <?php endif; ?>
