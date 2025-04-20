@@ -28,18 +28,20 @@ if (isset($_POST["name"]) && isset($_POST["description"])) {
     }
 }
 ?>
-<h1>Create Role</h1>
-<form method="POST">
-    <div>
-        <label for="name">Name</label>
-        <input id="name" name="name" required />
-    </div>
-    <div>
-        <label for="d">Description</label>
-        <textarea name="description" id="d"></textarea>
-    </div>
-    <input type="submit" value="Create Role" />
-</form>
+<div class="container text-center mt-4">
+    <h1>Create Role</h1>
+    <form method="POST" class="d-flex flex-column align-items-center gap-3 mt-3" style="max-width: 500px; margin: 0 auto;">
+        <div class="w-100">
+            <label for="name" class="form-label">Name</label>
+            <input id="name" name="name" required class="form-control" />
+        </div>
+        <div class="w-100">
+            <label for="d" class="form-label">Description</label>
+            <textarea name="description" id="d" class="form-control"></textarea>
+        </div>
+        <input type="submit" value="Create Role" class="btn btn-success" />
+    </form>
+</div>
 <?php
 //note we need to go up 1 more directory
 require_once(__DIR__ . "/../../../partials/flash.php");
