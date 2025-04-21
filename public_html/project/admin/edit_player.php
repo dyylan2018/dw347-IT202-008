@@ -2,6 +2,7 @@
 require_once(__DIR__ . "/../../../lib/db.php");
 require_once(__DIR__ . "/../../../lib/functions.php");
 require_once(__DIR__ . "/../../../partials/nav.php");
+
 if (!has_role("Admin")) {
     flash("You don't have permission to view this page", "warning");
     die(header("Location: " . get_url("home.php")));
@@ -9,13 +10,15 @@ if (!has_role("Admin")) {
 
 $players = [];
 $player = null;
+$success = isset($_GET["success"]) && $_GET["success"] == 1;
 
 // POST: Update selected player
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["id"])) {
     $id = $_POST["id"];
+
     $fields = [
         "sport_id", "team_id", "first_name", "last_name", "display_name",
-        "weight", "height", "age", "date_of_birth", "position"
+        "weight", "height", "age", "position"
     ];
     $updates = [];
     $params = [];
@@ -25,13 +28,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["id"])) {
         $params[":$field"] = $_POST[$field] ?? null;
     }
 
+    // Handle date_of_birth separately to retain value if not changed
+    $dob = $_POST["date_of_birth"] ?? "";
+    if (!empty($dob)) {
+        $updates[] = "date_of_birth = :date_of_birth";
+        $params[":date_of_birth"] = $dob;
+    }
+
     $params[":id"] = $id;
 
     $db = getDB();
     $stmt = $db->prepare("UPDATE Players SET " . implode(", ", $updates) . ", updated_at = NOW() WHERE id = :id");
     $stmt->execute($params);
 
-    header("Location: manage_player.php");
+    // Redirect back to this page with success flag
+    header("Location: edit_player.php?id=" . $id . "&success=1");
     exit;
 }
 
@@ -71,6 +82,10 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["name"])) {
 <body>
 <div class="container mt-5">
     <h2 class="text-center mb-4">Edit Player</h2>
+
+    <?php if ($success): ?>
+        <div class="alert alert-success text-center">Player updated successfully!</div>
+    <?php endif; ?>
 
     <?php if ($player): ?>
         <form method="POST" class="centered-form">
