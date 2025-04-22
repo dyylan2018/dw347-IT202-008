@@ -23,6 +23,7 @@ if (($localWorks && $domain == "localhost") || $domain != "localhost") {
 session_start();
 
 
+
 ?>
 <!-- boostrap inclusion 5.3 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -45,12 +46,27 @@ session_start();
         <?php if (is_logged_in()) : ?>
           <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('home.php'); ?>">Home</a></li>
           <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('profile.php'); ?>">Profile</a></li>
-          <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('testApi.php'); ?>">Stats</a></li>
+          <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('admin/manage_player.php'); ?>">Manage</a></li>
         <?php endif; ?>
 
         <?php if (!is_logged_in()) : ?>
           <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('login.php'); ?>">Login</a></li>
           <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('register.php'); ?>">Register</a></li>
+        <?php endif; ?>
+
+        <?php if (has_role("Admin")) : ?>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Players
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="<?php echo get_url('admin/create_player.php'); ?>">Create Player</a></li>
+              <li><a class="dropdown-item" href="<?php echo get_url('admin/list_players.php'); ?>">List Players</a></li>
+              <li><a class="dropdown-item" href="<?php echo get_url('admin/search_player.php'); ?>">Fetch Player</a></li>
+              <li><a class="dropdown-item" href="<?php echo get_url('admin/edit_player.php'); ?>">Edit Player</a></li>
+              <li><a class="dropdown-item" href="<?php echo get_url('admin/delete_player.php'); ?>">Delete Player</a></li>
+            </ul>
+          </li>
         <?php endif; ?>
 
         <?php if (has_role("Admin")) : ?>

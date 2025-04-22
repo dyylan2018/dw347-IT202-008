@@ -7,7 +7,7 @@ require(__DIR__ . "/../../partials/nav.php");
 /* Adjust if your nav bar height differs */
 background-color: #f0f0f0; text-align: center; } h1 { font-size: 3rem; color: #333; margin: 0; }
 </style> <div class="home-wrapper">
-    <h2>Welcome to your NY Yankees Stats Homepage</h2>
+    <h2>Welcome to your NY Yankees Info Homepage</h2>
 </div>
 <?php
 if (is_logged_in(true)) {
