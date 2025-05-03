@@ -16,7 +16,6 @@ $query = "SELECT * FROM Players WHERE 1=1";
 $params = [];
 
 if ($filter_position) {
-    // Filter for different positions
     if ($filter_position === "Pitcher") {
         $query .= " AND position IN ('Starting Pitcher', 'Relief Pitcher')";
     }
@@ -34,10 +33,10 @@ if ($filter_position) {
 
 if ($filter_status) {
     if ($filter_status === "Active") {
-        $query .= " AND status = 'Active'";  // assuming status is stored as 'Active'
+        $query .= " AND status = 'Active'";
     }
     elseif ($filter_status === "Inactive") {
-        $query .= " AND status = 'Inactive'";  // assuming status is stored as 'Inactive'
+        $query .= " AND status = 'Inactive'";
     }
 }
 
@@ -145,7 +144,12 @@ $players = $stmt->fetchAll();
                             <td><?php se($p, "bats"); ?></td>
                             <td><?php se($p, "throws"); ?></td>
                             <td>
-                                <a href="view_player.php?id=<?= $p['id'] ?>" class="btn btn-sm btn-info">View</a>
+                                <a href="view_player.php?id=<?= $p['id'] ?>" class="btn btn-sm btn-info mb-1">View</a>
+                                <form method="POST" action="favorite_action.php" style="display:inline;">
+                                    <input type="hidden" name="player_id" value="<?= $p['id']; ?>">
+                                    <input type="hidden" name="redirect" value="list_players.php"> <!-- Add redirect field -->
+                                    <button type="submit" class="btn btn-sm btn-warning">Favorite</button>
+                                </form>
                             </td>
                         </tr>
                     <?php endforeach; ?>

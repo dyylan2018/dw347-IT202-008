@@ -62,3 +62,24 @@ body {
     font-family: Arial, sans-serif;
     margin: 20px;
 }
+
+/* Make navbar text smaller and spacing super tight */
+.navbar-nav {
+    gap: 0; /* no space between items */
+}
+
+.navbar-nav .nav-item {
+    margin-right: -0.1rem; /* negative margin to pull them tighter */
+}
+
+.navbar-nav .nav-link {
+    font-size: 1 rem; /* smaller text */
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+}
+
+/* Shrink navbar overall height */
+.navbar {
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
