@@ -50,6 +50,7 @@ if (session_status() == PHP_SESSION_NONE) {
           <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('profile.php'); ?>">Profile</a></li>
           <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('favorites.php'); ?>">Favorites</a></li>
           <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('my_players.php'); ?>">My Players</a></li>          
+          <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('other_players.php'); ?>">Other</a></li>          
           <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('admin/manage_player.php'); ?>">Manage</a></li>
         <?php endif; ?>
 
@@ -68,6 +69,7 @@ if (session_status() == PHP_SESSION_NONE) {
               <li><a class="dropdown-item" href="<?php echo get_url('admin/list_players.php'); ?>">List Players</a></li>
               <li><a class="dropdown-item" href="<?php echo get_url('admin/search_player.php'); ?>">Fetch Player</a></li>
               <li><a class="dropdown-item" href="<?php echo get_url('admin/edit_player.php'); ?>">Edit Player</a></li>
+              <li><a class="dropdown-item" href="<?php echo get_url('admin/associate.php'); ?>">Associate Player</a></li>
               <li><a class="dropdown-item" href="<?php echo get_url('admin/delete_player.php'); ?>">Delete Player</a></li>
             </ul>
           </li>
