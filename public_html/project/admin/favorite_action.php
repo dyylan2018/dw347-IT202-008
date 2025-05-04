@@ -7,12 +7,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['player_id']) && is_numeric($_POST['player_id'])) {
         $player_id = $_POST['player_id'];
 
+        // Get the logged-in user ID
+        $user_id = get_user_id();
+
         $pdo = getDB();
         try {
-            // Insert the favorite into the database
-            $stmt = $pdo->prepare("INSERT INTO Favorites (player_id) VALUES (:player_id)");
+            // Fetch the player's details (display_name, jersey, position, etc.)
+            $stmt = $pdo->prepare("SELECT display_name, jersey, position, age, status FROM Players WHERE id = :player_id");
             $stmt->execute([":player_id" => $player_id]);
-            flash("Player favorited successfully!", "success");
+            $player = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Check if the player exists
+            if ($player) {
+                // Insert the favorite into the database
+                $stmt = $pdo->prepare("INSERT INTO Favorites (user_id, player_id, display_name, jersey, position, age, status) 
+                                       VALUES (:user_id, :player_id, :display_name, :jersey, :position, :age, :status)");
+                $stmt->execute([
+                    ":user_id"    => $user_id,
+                    ":player_id"  => $player_id,
+                    ":display_name" => $player['display_name'],
+                    ":jersey"      => $player['jersey'],
+                    ":position"    => $player['position'],
+                    ":age"         => $player['age'],
+                    ":status"      => $player['status'],
+                ]);
+                flash("Player favorited successfully!", "success");
+            } else {
+                flash("Player not found.", "danger");
+            }
         } catch (PDOException $e) {
             error_log("Favorite action error: " . var_export($e, true));
             if (str_contains($e->getMessage(), "Duplicate entry")) {
