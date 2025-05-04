@@ -1,7 +1,16 @@
 <?php
+session_start();
 require_once(__DIR__ . "/../../../lib/db.php");
 require_once(__DIR__ . "/../../../lib/functions.php");
 require_once(__DIR__ . "/../../../partials/nav.php");
+
+// Debugging: Check if user is logged in
+if (!is_logged_in()) {
+    echo "Not logged in."; // Debugging message to see if user is logged in
+    flash("You must be logged in to perform this action", "warning");
+    header("Location: login.php");
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['player_id']) && is_numeric($_POST['player_id'])) {
@@ -19,29 +28,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Check if the player exists
             if ($player) {
-                // Insert the favorite into the database
-                $stmt = $pdo->prepare("INSERT INTO Favorites (user_id, player_id, display_name, jersey, position, age, status) 
-                                       VALUES (:user_id, :player_id, :display_name, :jersey, :position, :age, :status)");
-                $stmt->execute([
-                    ":user_id"    => $user_id,
-                    ":player_id"  => $player_id,
-                    ":display_name" => $player['display_name'],
-                    ":jersey"      => $player['jersey'],
-                    ":position"    => $player['position'],
-                    ":age"         => $player['age'],
-                    ":status"      => $player['status'],
-                ]);
-                flash("Player favorited successfully!", "success");
+                // Check if the player is already in the user's favorites
+                $stmt = $pdo->prepare("SELECT * FROM Favorites WHERE user_id = :user_id AND player_id = :player_id");
+                $stmt->execute([":user_id" => $user_id, ":player_id" => $player_id]);
+                $existing_favorite = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($existing_favorite) {
+                    flash("Player is already in your favorites.", "warning");
+                } else {
+                    // Insert the favorite into the database
+                    $stmt = $pdo->prepare("INSERT INTO Favorites (user_id, player_id, display_name, jersey, position, age, status) 
+                                           VALUES (:user_id, :player_id, :display_name, :jersey, :position, :age, :status)");
+                    $stmt->execute([
+                        ":user_id"    => $user_id,
+                        ":player_id"  => $player_id,
+                        ":display_name" => $player['display_name'],
+                        ":jersey"      => $player['jersey'],
+                        ":position"    => $player['position'],
+                        ":age"         => $player['age'],
+                        ":status"      => $player['status'],
+                    ]);
+                    flash("Player favorited successfully!", "success");
+                }
             } else {
                 flash("Player not found.", "danger");
             }
         } catch (PDOException $e) {
             error_log("Favorite action error: " . var_export($e, true));
-            if (str_contains($e->getMessage(), "Duplicate entry")) {
-                flash("Player is already favorited.", "warning");
-            } else {
-                flash("Error favoriting player: " . htmlspecialchars($e->getMessage()), "danger");
-            }
+            flash("Error favoriting player: " . htmlspecialchars($e->getMessage()), "danger");
         }
     } else {
         flash("Invalid player ID.", "danger");
