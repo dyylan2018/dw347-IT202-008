@@ -51,6 +51,7 @@ if (session_status() == PHP_SESSION_NONE) {
           <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('favorites.php'); ?>">Favorites</a></li>
           <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('my_players.php'); ?>">My Players</a></li>          
           <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('other_players.php'); ?>">Other</a></li>          
+          <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('assigned.php'); ?>">Assigned</a></li>                    
           <li class="nav-item"><a class="nav-link text-light" href="<?php echo get_url('admin/manage_player.php'); ?>">Manage</a></li>
         <?php endif; ?>
 
