@@ -21,7 +21,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["remove"])) {
     }
 }
 
-// Fetching favorites with player and user details
+// Handle sort and filter input
+$sort_by = $_GET['sort_by'] ?? 'created_at';
+$position_filter = $_GET['position'] ?? '';
+
+$order_clause = "Favorites.created_at DESC";
+switch ($sort_by) {
+    case 'position':
+        $order_clause = "Players.position ASC";
+        break;
+    case 'age_asc':
+        $order_clause = "Players.age ASC";
+        break;
+    case 'age_desc':
+        $order_clause = "Players.age DESC";
+        break;
+    default:
+        $order_clause = "Favorites.created_at DESC";
+        break;
+}
+
+// Build base query
 $query = "
     SELECT 
         Players.id, 
@@ -39,16 +59,56 @@ $query = "
     FROM Favorites 
     JOIN Players ON Favorites.player_id = Players.id 
     JOIN Users ON Favorites.user_id = Users.id
-    ORDER BY Favorites.created_at DESC
 ";
+
+// Add position filter if selected
+$params = [];
+if (!empty($position_filter)) {
+    $query .= " WHERE Players.position = :position ";
+    $params[':position'] = $position_filter;
+}
+
+$query .= " ORDER BY $order_clause";
+
 $stmt = $pdo->prepare($query);
-$stmt->execute();
+$stmt->execute($params);
 $favorites = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Fetch all unique positions for the filter dropdown
+$position_stmt = $pdo->prepare("SELECT DISTINCT position FROM Players WHERE position IS NOT NULL ORDER BY position ASC");
+$position_stmt->execute();
+$positions = $position_stmt->fetchAll(PDO::FETCH_COLUMN);
 ?>
 
 <div class="container mt-5">
     <?php require(__DIR__ . "/../../partials/flash.php"); ?>
     <h2 class="text-center mb-4">Favorite Players</h2>
+
+    <form method="GET" class="mb-4">
+        <div class="row justify-content-center g-3">
+            <div class="col-md-3">
+                <label for="sort_by" class="form-label">Sort by:</label>
+                <select name="sort_by" id="sort_by" class="form-select" onchange="this.form.submit()">
+                    <option value="created_at" <?= ($sort_by === 'created_at') ? 'selected' : '' ?>>Recently Added</option>
+                    <option value="position" <?= ($sort_by === 'position') ? 'selected' : '' ?>>Position (A-Z)</option>
+                    <option value="age_asc" <?= ($sort_by === 'age_asc') ? 'selected' : '' ?>>Age (Youngest First)</option>
+                    <option value="age_desc" <?= ($sort_by === 'age_desc') ? 'selected' : '' ?>>Age (Oldest First)</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="position" class="form-label">Filter by Position:</label>
+                <select name="position" id="position" class="form-select" onchange="this.form.submit()">
+                    <option value="">All Positions</option>
+                    <?php foreach ($positions as $pos): ?>
+                        <option value="<?= htmlspecialchars($pos) ?>" <?= ($pos === $position_filter) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($pos) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+    </form>
+
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
