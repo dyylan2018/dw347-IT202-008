@@ -1,6 +1,10 @@
 <?php
+<<<<<<< HEAD
 require(__DIR__ . "/../../partials/nav.php");
 reset_session();
+=======
+require(__DIR__ . "/../../lib/functions.php");
+>>>>>>> prod
 ?>
 <style>
   body, html {
@@ -72,6 +76,7 @@ reset_session();
       <label for="username">Username</label>
       <input type="text" name="username" required maxlength="30" />
     </div>
+<<<<<<< HEAD
 
     <div>
       <label for="pw">Password</label>
@@ -83,6 +88,12 @@ reset_session();
       <input type="password" name="confirm" required minlength="8" />
     </div>
 
+=======
+    <div>
+        <label for="confirm">Confirm</label>
+        <input type="password" name="confirm" required minlength="8" />
+    </div>
+>>>>>>> prod
     <input type="submit" value="Register" />
   </form>
 </div>
