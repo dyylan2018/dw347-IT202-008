@@ -1,0 +1,85 @@
+.alert-success {
+    background-color: #a72828; /* Softer green */
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.alert-warning {
+    background-color: #ffc107; /* Muted yellow */
+    color: #333;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.alert-danger {
+    background-color: #dc3545; /* Deep red */
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.alert-info {
+    background-color: #17a2b8; /* Refined teal */
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+nav {
+    background-color: #343a40; /* Dark, professional navbar */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+nav li {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+nav li a {
+    color: #333b42; /* Light text for contrast */
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 3px;
+    transition: background 0.3s;
+}
+
+nav li a:hover {
+    background-color: #495057; /* Subtle hover effect */
+}
+
+input {
+    border-radius: 5px; /* More professional rounded edges */
+    padding: 8px;
+    border: 1px solid #ced4da;
+}
+
+body {
+    background-color: #f8f9fa; /* Neutral, clean background */
+    color: #212529; /* Dark gray for readability */
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+/* Make navbar text smaller and spacing super tight */
+.navbar-nav {
+    gap: 0; /* no space between items */
+}
+
+.navbar-nav .nav-item {
+    margin-right: -0.1rem; /* negative margin to pull them tighter */
+}
+
+.navbar-nav .nav-link {
+    font-size: 1 rem; /* smaller text */
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+}
+
+/* Shrink navbar overall height */
+.navbar {
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
